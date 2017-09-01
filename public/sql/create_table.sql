@@ -1,0 +1,81 @@
+CREATE TABLE T_USER
+(
+    `UID`               BIGINT          NOT NULL    AUTO_INCREMENT,
+    `UUID`              VARCHAR(256)    NOT NULL,
+    `NAME`              VARCHAR(45)     NULL,
+    `TOKEN`             VARCHAR(256)    NULL,
+    `OS_TYPE`           VARCHAR(10)     NOT NULL,
+    `OS_VERSION`        VARCHAR(10)     NOT NULL,
+    `P_VERSION`         VARCHAR(10)     NOT NULL,
+    `SUBS_CNT`          INT   unsigned  DEFAULT 0,
+    `CREATE_DATE`       TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+    `LAST_DATE`         TIMESTAMP       DEFAULT CURRENT_TIMESTAMP,
+    `AGREEMENT_DATE`    TIMESTAMP       NULL,
+    `WITHDRAW_DATE`     TIMESTAMP       NULL,
+    PRIMARY KEY (UID)
+);
+
+CREATE TABLE T_LIKE
+(
+    `UID`           BIGINT    NOT NULL,
+    `PID`           BIGINT    NOT NULL,
+    `CREATE_DATE`   TIMESTAMP NOT NULL      DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (UID, PID)
+);
+
+CREATE TABLE T_POEM
+(
+    `PID`           BIGINT          NOT NULL        AUTO_INCREMENT, 
+    `UID`           BIGINT          NOT NULL, 
+    `EMOTION_CODE`  VARCHAR(20)     NOT NULL, 
+    `EMOTION_NAME`  VARCHAR(45)     NOT NULL, 
+    `TITLE`         VARCHAR(100)    NOT NULL, 
+    `CONTENT`       TEXT            NOT NULL, 
+    `CREATE_DATE`   TIMESTAMP       NOT NULL        DEFAULT CURRENT_TIMESTAMP,
+    `UPDATE_DATE`   TIMESTAMP	    NOT NULL        DEFAULT CURRENT_TIMESTAMP,
+    `PUBLIC`        TINYINT         DEFAULT 1,
+    `LIKE_CNT`      INT  unsigned   DEFAULT 0,
+    `REPORT_CNT`    INT  unsigned   DEFAULT 0,
+    `DELETE_DATE`   TIMESTAMP       NULL,
+    PRIMARY KEY (PID)
+);
+
+CREATE TABLE T_EMOTION
+(
+    `CODE`      VARCHAR(45)     NOT NULL, 
+    `NAME`      VARCHAR(45)	    NOT NULL, 
+    `DEPTH`     INT             NOT NULL, 
+    `ABOVE`     TINYINT         NOT NULL, 
+    `STATUS`    INT             DEFAULT 1,
+    `SEQ`       INT             NOT NULL,
+    PRIMARY KEY (CODE)
+);
+
+CREATE TABLE T_SUBSCRIBE
+(
+    `UID`           BIGINT          NOT NULL, 
+    `WRITER_ID`     BIGINT          NOT NULL, 
+    `CREATE_DATE`   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (UID, WRITER_ID)
+);
+
+CREATE TABLE T_VERSION
+(
+    `VERSION`       VARCHAR(10)    NOT NULL, 
+    `MIN_VERSION`   VARCHAR(10)    NOT NULL, 
+    `OS_TYPE`       VARCHAR(10), 
+    `UPDATE_URL`    VARCHAR(256)   NOT NULL, 
+    `DETAIL`        VARCHAR(256)   NULL, 
+    `CREATE_DATE`   TIMESTAMP      DEFAULT CURRENT_TIMESTAMP,
+    `UPDATE_DATE`   TIMESTAMP      NULL, 
+    PRIMARY KEY (VERSION)
+);
+
+CREATE TABLE T_REPORT
+(
+    `UID`           BIGINT          NOT NULL,
+    `PID`           BIGINT          NOT NULL,
+    `CREATE_DATE`   TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `DESCRIPTION`   varchar(200)    DEFAULT NULL,
+    PRIMARY KEY (UID, PID)
+);
